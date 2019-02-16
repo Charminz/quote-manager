@@ -1,14 +1,18 @@
-import { SAVE_QUOTE, GET_QUOTES } from "../actions";
+import { SAVE_QUOTE, EDIT_QUOTE } from "../actions";
 
-export default (state = [], action) => {
-	const payload = action.payload;
+export default (state = [], { type, payload }) => {
 
-	switch (action.type) {
+	switch (type) {
 		case SAVE_QUOTE:
-			state.quotes = [ ...state.quotes, payload ];
-			break;
-		case GET_QUOTES:
-			return state.quotes;
+			return {
+				...state,
+				quotes: [ ...state.quotes, payload ]
+			};
+		case EDIT_QUOTE:
+			const copyState = state;
+			const index = copyState.quotes.findIndex(quote => quote.id === payload.id);
+			copyState.quotes.splice(index, 1, payload);
+			return copyState
 		default:
 			return state;
 	}
