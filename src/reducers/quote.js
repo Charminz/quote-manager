@@ -1,4 +1,9 @@
-import { SAVE_QUOTE, UPDATE_QUOTE, REMOVE_QUOTE } from "../actions";
+import {
+	SAVE_QUOTE,
+	UPDATE_QUOTE,
+	REMOVE_QUOTE,
+	SET_LOADING
+} from "../actions";
 
 export default (state = [], { type, payload }) => {
 	switch (type) {
@@ -16,6 +21,11 @@ export default (state = [], { type, payload }) => {
 			return {
 				...state,
 				quotes: state.quotes.filter(quote => quote.id !== payload)
+			};
+		case SET_LOADING:
+			return {
+				...state,
+				loading: payload
 			};
 		default:
 			return state;

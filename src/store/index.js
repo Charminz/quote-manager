@@ -1,15 +1,17 @@
 import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from "redux-devtools-extension"
 import thunk from "redux-thunk";
 import reducer from '../reducers/quote';
 
 const initialState = {
-	quotes: []
+	quotes: [],
+	loading: false
 };
 
 const store = createStore(
 	reducer,
 	initialState,
-	applyMiddleware(thunk)
+	composeWithDevTools(applyMiddleware(thunk))
 );
 store.subscribe(() => console.log(store.getState()));
 

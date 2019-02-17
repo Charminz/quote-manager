@@ -16,7 +16,7 @@ const QuoteRow = (props) => {
 
 	return (
 		<div className="quote-row">
-			<img src={CloseIcon} className="close-btn" onClick={() => deleteHandler(quote.id)}/>
+			<img src={CloseIcon} className="close-btn" alt="X" onClick={() => deleteHandler(quote.id)}/>
 			{
 				editContent ? (
 					<textarea

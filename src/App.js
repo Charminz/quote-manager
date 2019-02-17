@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './style/App.scss';
 import Navbar from "./components/Navbar"
 import Quotes from "./pages/Quotes"
 import About from "./pages/About"

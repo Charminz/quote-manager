@@ -95,7 +95,7 @@ class Quotes extends Component {
 	render() {
 		return (
 			<div className="quotes">
-				<QuoteBlock quote={this.state.recentQuote}/>
+				<QuoteBlock quote={this.state.recentQuote} loading={this.props.loading}/>
 				<div className="buttons-wrapper">
 					<button className="fetch-btn" onClick={this.fetchQuoteHandler}>Get Quote</button>
 					<button className="save-btn" onClick={this.saveQuoteHandler} disabled={this.state.saveDisabled}>Save Quote
@@ -137,7 +137,8 @@ Quotes.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-	quotes: state.quotes
+	quotes: state.quotes,
+	loading: state.loading
 });
 
 const mapDispatchToProps = (dispatch) => ({
