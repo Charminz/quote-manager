@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { updateQuote, fetchQuote, saveQuote } from "../actions";
+import { updateQuote, fetchQuote, saveQuote, removeQuote } from "../actions";
 import QuoteBlock from "../components/QuoteBlock";
 import QuoteRow from "../components/QuoteRow";
 
@@ -11,11 +11,12 @@ class Quotes extends Component {
 		super(props);
 		this.saveQuoteHandler = this.saveQuoteHandler.bind(this);
 		this.fetchQuoteHandler = this.fetchQuoteHandler.bind(this);
-		this.quoteDoubleClickHandler = this.quoteDoubleClickHandler.bind(this);
+		this.beginQuoteEdit = this.beginQuoteEdit.bind(this);
 		this.inputChangeHandler = this.inputChangeHandler.bind(this);
-		this.endEditHandler = this.endEditHandler.bind(this);
-		this.endEdit = this.endEdit.bind(this);
+		this.endQuoteEditOnKeyPress = this.endQuoteEditOnKeyPress.bind(this);
+		this.endQuoteEdit = this.endQuoteEdit.bind(this);
 		this.cleanUpQuote = this.cleanUpQuote.bind(this);
+		this.deleteQuote = this.deleteQuote.bind(this);
 
 		this.state = {
 			recentQuote: null,
@@ -53,7 +54,7 @@ class Quotes extends Component {
 		this.props.saveQuote(this.state.recentQuote);
 	}
 
-	quoteDoubleClickHandler(quote, ref) {
+	beginQuoteEdit(quote, ref) {
 		this.setState({
 			edit: {
 				id: quote.id,
@@ -65,26 +66,30 @@ class Quotes extends Component {
 
 	inputChangeHandler(event) {
 		const quote = this.state.quoteInEdit;
-		quote[ this.state.edit.ref ] = event.target.value;
+		quote[this.state.edit.ref] = event.target.value;
 
 		this.setState({
 			quoteInEdit: quote
 		});
 	}
 
-	endEditHandler(event) {
-		if ( event.keyCode === 13 ) {
-			this.endEdit();
+	endQuoteEditOnKeyPress(event) {
+		if (event.keyCode === 13) {
+			this.endQuoteEdit();
 		}
 	}
 
-	endEdit() {
+	endQuoteEdit() {
 		this.props.updateQuote(this.state.quoteInEdit);
 
 		this.setState({
 			quoteInEdit: null,
 			edit: null
 		});
+	}
+
+	deleteQuote(id) {
+		this.props.removeQuote(id)
 	}
 
 	render() {
@@ -110,9 +115,10 @@ class Quotes extends Component {
 									editAuthor={editAuthor}
 									quoteInEdit={this.state.quoteInEdit}
 									onChangeHandler={this.inputChangeHandler}
-									onKeyUpHandler={this.endEditHandler}
-									onBlurHandler={this.endEdit}
-									beginEditHandler={this.quoteDoubleClickHandler}
+									onKeyUpHandler={this.endQuoteEditOnKeyPress}
+									onBlurHandler={this.endQuoteEdit}
+									beginEditHandler={this.beginQuoteEdit}
+									deleteHandler={this.deleteQuote}
 								/>
 							);
 						})
@@ -126,7 +132,8 @@ class Quotes extends Component {
 Quotes.propTypes = {
 	fetchQuote: PropTypes.func,
 	saveQuote: PropTypes.func,
-	updateQuote: PropTypes.func
+	updateQuote: PropTypes.func,
+	removeQuote: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
@@ -134,7 +141,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	...bindActionCreators({ saveQuote, fetchQuote, updateQuote }, dispatch)
+	...bindActionCreators({ saveQuote, fetchQuote, updateQuote, removeQuote }, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Quotes);
