@@ -98,12 +98,13 @@ class Quotes extends Component {
 				</div>
 				<div className="quotes-list">
 					{
-						this.props.quotes.map(quote => {
+						this.props.quotes.map((quote, index) => {
 							const editContent = this.state.edit && this.state.edit.id === quote.id && this.state.edit.ref === "content";
 							const editAuthor = this.state.edit && this.state.edit.id === quote.id && this.state.edit.ref === "author";
 
 							return (
 								<QuoteRow
+									key={index}
 									quote={quote}
 									editContent={editContent}
 									editAuthor={editAuthor}

@@ -1,7 +1,7 @@
 import React from "react";
 
 const QuoteRow = ({ quote, editContent, editAuthor, quoteInEdit, onChangeHandler, onKeyUpHandler, onBlurHandler, beginEditHandler }) => (
-	<div key={quote.id}>
+	<div>
 		{
 			editContent ? (
 				<textarea

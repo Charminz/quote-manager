@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 class Navbar extends Component {
     render() {
         return (
             <div className="nav-container">
-                <Link className="nav-item" to="/">Quotes</Link>
-                <Link className="nav-item" to="/about">About</Link>
+                <NavLink className="nav-item" activeClassName="active-tab" exact to="/">Quotes</NavLink>
+                <NavLink className="nav-item" activeClassName="active-tab" to="/about">About</NavLink>
             </div>
         );
     }
