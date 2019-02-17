@@ -101,7 +101,9 @@ body {
     font-weight: 500;
     font-style: italic;
     line-height: 1.1em;
-    padding-top: 0.5em;
+    padding: 0.5em;
+    max-width: 750px;
+    margin: 0 auto !important;
   }
 
   & .quote-author {
@@ -148,6 +150,17 @@ body {
   0 2px 2px 0px rgba(0, 0, 0, 0.4),
   0 1px 5px 0px rgba(0, 0, 0, 0.3);
   outline: none;
+}
+
+.error {
+  font-family: "Roboto", sans-serif;
+  margin: 2em 4em;
+  font-size: 20px;
+
+  & img {
+    margin-top: 4em;
+    width: 225px;
+  }
 }
 
 $offset: 200;
