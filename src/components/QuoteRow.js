@@ -28,8 +28,8 @@ const QuoteRow = (props) => {
 						onBlur={onBlurHandler}
 					/>
 				) : (
-					<div className="quote-content"
-							 onDoubleClick={() => beginEditHandler(quote, "content")}>
+					<div className="quote-content editable"
+							 onClick={() => beginEditHandler(quote, "content")}>
 						{quote.content}
 					</div>
 				)
@@ -47,8 +47,8 @@ const QuoteRow = (props) => {
 						onBlur={onBlurHandler}
 					/>
 				) : (
-					<div className="quote-author"
-							 onDoubleClick={() => beginEditHandler(quote, "author")}
+					<div className="quote-author editable"
+							 onClick={() => beginEditHandler(quote, "author")}
 					>
 						{quote.author}
 					</div>

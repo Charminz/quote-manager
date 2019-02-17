@@ -6,8 +6,7 @@ class Navbar extends Component {
 		return (
 			<div className="error">
 				<div>
-					You are trying to enter the magical wonderland.
-					I'm sorry, but unfortunately it does not exist.
+					You are trying to enter the magical wonderland. I'm sorry, but unfortunately it does not exist.
 				</div>
 				<img src={errorImg} alt="Invalid page"/>
 			</div>

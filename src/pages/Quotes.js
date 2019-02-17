@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { updateQuote, fetchQuote, saveQuote, removeQuote } from "../actions";
-import QuoteBlock from "../components/QuoteBlock";
+import NewQuote from "../components/NewQuote";
 import QuoteRow from "../components/QuoteRow";
 
 class Quotes extends Component {
@@ -29,6 +29,7 @@ class Quotes extends Component {
 	fetchQuoteHandler() {
 		this.props.fetchQuote().then(newQuote => {
 			newQuote.content = this.cleanUpQuote(newQuote.content);
+			newQuote.title = this.cleanUpQuote(newQuote.title);
 
 			this.setState({
 				recentQuote: {
@@ -60,7 +61,7 @@ class Quotes extends Component {
 				id: quote.id,
 				ref
 			},
-			quoteInEdit: quote
+			quoteInEdit: JSON.parse(JSON.stringify(quote))
 		});
 	}
 
@@ -74,13 +75,19 @@ class Quotes extends Component {
 	}
 
 	endQuoteEditOnKeyPress(event) {
+		// On enter save and end the editing
 		if (event.keyCode === 13) {
 			this.endQuoteEdit();
 		}
+
+		// On ESC end the editing
+		if (event.keyCode === 27) {
+			this.endQuoteEdit(false);
+		}
 	}
 
-	endQuoteEdit() {
-		this.props.updateQuote(this.state.quoteInEdit);
+	endQuoteEdit(shouldUpdate = true) {
+		if (shouldUpdate) this.props.updateQuote(this.state.quoteInEdit);
 
 		this.setState({
 			quoteInEdit: null,
@@ -89,13 +96,13 @@ class Quotes extends Component {
 	}
 
 	deleteQuote(id) {
-		this.props.removeQuote(id)
+		this.props.removeQuote(id);
 	}
 
 	render() {
 		return (
 			<div className="quotes">
-				<QuoteBlock quote={this.state.recentQuote} loading={this.props.loading}/>
+				<NewQuote quote={this.state.recentQuote} loading={this.props.loading}/>
 				<div className="buttons-wrapper">
 					<button className="fetch-btn" onClick={this.fetchQuoteHandler}>Get Quote</button>
 					<button className="save-btn" onClick={this.saveQuoteHandler} disabled={this.state.saveDisabled}>Save Quote

@@ -4,4 +4,4 @@ const QuoteAPI = axios.create({
 	baseURL: "https://quotesondesign.com/wp-json"
 });
 
-export default QuoteAPI
+export default QuoteAPI;

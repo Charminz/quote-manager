@@ -1,7 +1,7 @@
 import React from "react";
 import Loader from "./Loader";
 
-const QuoteBlock = (props) => (
+const NewQuote = (props) => (
 	props.loading ? (
 			<Loader/>
 		) :
@@ -15,9 +15,10 @@ const QuoteBlock = (props) => (
 				</div>
 			</div>
 		) : (
-			<div className="quote-block">Grab some quotes below to start adding them to your library!
+			<div className="quote-placeholder">
+				Grab some quotes below to start adding them to your library!
 			</div>
 		)
 );
 
-export default QuoteBlock;
+export default NewQuote;

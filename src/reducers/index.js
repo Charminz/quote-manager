@@ -1,5 +1,5 @@
-import quote from "./quote"
+import quote from "./quote";
 
 export default {
 	quote
-}
+};

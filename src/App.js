@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import Navbar from "./components/Navbar"
-import Quotes from "./pages/Quotes"
-import About from "./pages/About"
-import ErrorPage from "./pages/ErrorPage"
-import {Switch, Route} from "react-router-dom"
-import {Provider} from "react-redux"
-import store from "./store"
+import React, { Component } from 'react';
+import Navbar from "./components/Navbar";
+import Quotes from "./pages/Quotes";
+import About from "./pages/About";
+import ErrorPage from "./pages/ErrorPage";
+import { Switch, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store";
 
 
 class App extends Component {
