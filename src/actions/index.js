@@ -1,7 +1,7 @@
 import QuoteAPI from "../api";
 
 export const SAVE_QUOTE = "SAVE_QUOTE";
-export const EDIT_QUOTE = "EDIT_QUOTE";
+export const UPDATE_QUOTE = "UPDATE_QUOTE";
 
 export const saveQuote = (quote) => ({
 	type: SAVE_QUOTE,
@@ -22,7 +22,7 @@ export const fetchQuote = () => {
 	};
 };
 
-export const editQuote = (quote) => ({
-	type: EDIT_QUOTE,
+export const updateQuote = (quote) => ({
+	type: UPDATE_QUOTE,
 	payload: quote
 })

@@ -4,10 +4,10 @@ const QuoteBlock = (props) => (
 	<div className="quote-block">
 		{props.quote ? (
 			<div>
-				{props.quote.author} - {quote.content}
+				{props.quote.author} - {props.quote.content}
 			</div>
 		) : (
-			<div> No quote found </div>
+			<div> Grab some quotes below to start adding them to your library! </div>
 		)}
 	</div>
 );

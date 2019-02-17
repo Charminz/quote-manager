@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { editQuote, fetchQuote, saveQuote } from "../actions";
+import { updateQuote, fetchQuote, saveQuote } from "../actions";
 import QuoteBlock from "../components/QuoteBlock";
+import QuoteRow from "../components/QuoteRow";
 
 class Quotes extends Component {
 	constructor(props) {
@@ -19,7 +20,8 @@ class Quotes extends Component {
 		this.state = {
 			recentQuote: null,
 			saveDisabled: true,
-			edit: null
+			edit: null,
+			quoteInEdit: null
 		};
 	}
 
@@ -51,19 +53,23 @@ class Quotes extends Component {
 		this.props.saveQuote(this.state.recentQuote);
 	}
 
-	quoteDoubleClickHandler(id, ref) {
+	quoteDoubleClickHandler(quote, ref) {
 		this.setState({
 			edit: {
-				id,
+				id: quote.id,
 				ref
-			}
+			},
+			quoteInEdit: quote
 		});
 	}
 
-	inputChangeHandler(event, quote) {
+	inputChangeHandler(event) {
+		const quote = this.state.quoteInEdit;
 		quote[ this.state.edit.ref ] = event.target.value;
 
-		this.props.editQuote(quote);
+		this.setState({
+			quoteInEdit: quote
+		});
 	}
 
 	endEditHandler(event) {
@@ -73,7 +79,10 @@ class Quotes extends Component {
 	}
 
 	endEdit() {
+		this.props.updateQuote(this.state.quoteInEdit);
+
 		this.setState({
+			quoteInEdit: null,
 			edit: null
 		});
 	}
@@ -82,9 +91,10 @@ class Quotes extends Component {
 		return (
 			<div className="quotes">
 				<QuoteBlock quote={this.state.recentQuote}/>
-				<div className="button-block">
-					<button onClick={this.fetchQuoteHandler}>Get Quote</button>
-					<button onClick={this.saveQuoteHandler} disabled={this.state.saveDisabled}>Save Quote</button>
+				<div className="buttons-wrapper">
+					<button className="fetch-btn" onClick={this.fetchQuoteHandler}>Get Quote</button>
+					<button className="save-btn" onClick={this.saveQuoteHandler} disabled={this.state.saveDisabled}>Save Quote
+					</button>
 				</div>
 				<div className="quotes-list">
 					{
@@ -93,44 +103,16 @@ class Quotes extends Component {
 							const editAuthor = this.state.edit && this.state.edit.id === quote.id && this.state.edit.ref === "author";
 
 							return (
-								<div key={quote.id}>
-									{
-										editContent ? (
-											<textarea
-												className="quote-edit"
-												autoFocus
-												value={quote.content}
-												onChange={(e) => this.inputChangeHandler(e, quote)}
-												onKeyUp={this.endEditHandler}
-												onBlur={this.endEdit}
-											/>
-										) : (
-											<div className="quote-content"
-													 onDoubleClick={() => this.quoteDoubleClickHandler(quote.id, "content")}>
-												{quote.content}
-											</div>
-										)
-									}
-
-									{
-										editAuthor ? (
-											<input
-												autoFocus
-												type="text"
-												value={quote.author}
-												onChange={(e) => this.inputChangeHandler(e, quote)}
-												onKeyUp={this.endEditHandler}
-												onBlur={this.endEdit}
-											/>
-										) : (
-											<div className="quote-author"
-													 onDoubleClick={() => this.quoteDoubleClickHandler(quote.id, "author")}
-											>
-												- {quote.author}
-											</div>
-										)
-									}
-								</div>
+								<QuoteRow
+									quote={quote}
+									editContent={editContent}
+									editAuthor={editAuthor}
+									quoteInEdit={this.state.quoteInEdit}
+									onChangeHandler={this.inputChangeHandler}
+									onKeyUpHandler={this.endEditHandler}
+									onBlurHandler={this.endEdit}
+									beginEditHandler={this.quoteDoubleClickHandler}
+								/>
 							);
 						})
 					}
@@ -143,7 +125,7 @@ class Quotes extends Component {
 Quotes.propTypes = {
 	fetchQuote: PropTypes.func,
 	saveQuote: PropTypes.func,
-	editQuote: PropTypes.func
+	updateQuote: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
@@ -151,7 +133,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	...bindActionCreators({ saveQuote, fetchQuote, editQuote }, dispatch)
+	...bindActionCreators({ saveQuote, fetchQuote, updateQuote }, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Quotes);
